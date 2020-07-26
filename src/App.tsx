@@ -1,24 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+import Grid from './components/Grid'
+import Evaluator from './components/Evaluator'
+
+function App () {
+  const grid = <Grid size={20} />
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      Light Installation Simulator
       </header>
+
+      <div className='container'>
+        {grid}
+        <Evaluator grid={grid} />
+      </div>
     </div>
   );
 }

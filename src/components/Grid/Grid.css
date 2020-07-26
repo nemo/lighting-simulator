@@ -1,0 +1,17 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+
+  width: 1000px;
+}
+
+.grid-led {
+  display: block;
+  width: 15px;
+  height: 15px;
+
+  border-radius: 50px;
+
+  margin: 5px;
+}

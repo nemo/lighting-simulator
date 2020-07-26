@@ -1,0 +1,48 @@
+.evaluator {
+  min-width: 500px;
+}
+
+.evaluator-actions {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.evaluator-actions button + button {
+  margin-left: 15px;
+}
+
+.evaluator-actions button {
+  background: white;
+  border: 2px solid #00db13;
+  color: white;
+  background: #00db13;
+
+
+  height: 40px;
+  padding: 0 20px;
+
+  border-radius: 5px;
+}
+
+.evaluator-actions button.stop {
+  color: white;
+  background: #db0000;
+  border-color: #db0000;
+}
+
+.evaluator-actions button.stop:hover {
+  color: #db0000;
+  background: white;
+}
+
+.evaluator-actions button:hover {
+  cursor: pointer;
+  color: #00db13;
+  background: white;
+}
+
+.evaluator textarea {
+  width: 100%;
+
+  border-radius: 5px;
+}
