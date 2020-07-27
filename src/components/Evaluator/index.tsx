@@ -1,9 +1,11 @@
 import React from 'react';
 import './Evaluator.css'
+import pttrns from '../../library/patterns'
+import Simulator from '../../library/Simulator'
 
 export default class Evaluator extends React.Component<any, any> {
   state = {
-    code: '',
+    code: 'return new patterns.snake(simulator)',
     error: null,
     isRunning: false,
     timer: undefined
@@ -15,6 +17,8 @@ export default class Evaluator extends React.Component<any, any> {
       this.setState({ error: null })
 
       const grid = this.props.grid
+      const patterns = pttrns
+      const simulator = new Simulator(grid)
       const patternObj = eval(`function parseJS() {${this.state.code}}; parseJS();`)
       if (!patternObj) {
         throw new Error("You didn't return an object.")
@@ -25,7 +29,15 @@ export default class Evaluator extends React.Component<any, any> {
       }
 
       this.setState({
-        timer: setInterval(() => patternObj.next(), 500),
+        timer: setInterval(() => {
+          if (!patternObj.next()) {
+            clearInterval(this.state.timer)
+            this.setState({
+              timer: undefined,
+              isRunning: false
+            })
+          }
+        }, 20),
         isRunning: true
       })
     } catch (e) {
@@ -45,19 +57,31 @@ export default class Evaluator extends React.Component<any, any> {
     })
   }
 
+  onReset = (event : any) => {
+    event.preventDefault()
+
+    this.props.grid.reset()
+  }
+
   render () {
     return (
       <div className="evaluator">
         <div className='evaluator-actions'>
-          <button onClick={this.onEvaluate}>
-            Run
-          </button>
+          {!this.state.isRunning && (
+            <button onClick={this.onEvaluate} className='run'>
+              Run
+            </button>
+          )}
 
           {this.state.isRunning && (
             <button onClick={this.onStop} className='stop'>
               Stop
             </button>
           )}
+
+          <button onClick={this.onReset} className='reset'>
+            Reset
+          </button>
         </div>
 
         <textarea

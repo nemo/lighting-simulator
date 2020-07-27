@@ -1,5 +1,6 @@
 import Simulator from '../Simulator'
 import Pattern from './Pattern'
+import Color from '../Color'
 
 export default class Snake extends Pattern {
 
@@ -31,6 +32,8 @@ export default class Snake extends Pattern {
 			return false;
 		}
 		this.progress();
+
+		this.simulator.setLED(this.row, this.col, new Color(255, 100, 100))
 		return true;
 	}
 }

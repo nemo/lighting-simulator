@@ -1,4 +1,5 @@
 import Color from "./Color"
+import Grid from '../components/Grid'
 
 export default class Simulator {
 
@@ -11,12 +12,12 @@ export default class Simulator {
 	}
 
 	setLED(row: number, col: number, color: Color) {
-		let index = x * this.dimension + y;
+		let index = row * this.dimension + col;
 		this.grid.setLED(index, color);
 	}
 
 	setGrid(leds: Color[][]) {
-		for (let [row, colors] of leds.entries()) { 
+		for (let [row, colors] of leds.entries()) {
 			for (let [col, color] of colors.entries()) {
 				this.setLED(row, col, color);
 			}
@@ -37,4 +38,3 @@ export default class Simulator {
 		}
 	}
 }
-

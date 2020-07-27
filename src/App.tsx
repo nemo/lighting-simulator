@@ -4,20 +4,42 @@ import './App.css';
 import Grid from './components/Grid'
 import Evaluator from './components/Evaluator'
 
-function App () {
-  const grid = <Grid size={20} />
-  return (
-    <div className="App">
-      <header className="App-header">
-      Light Installation Simulator
-      </header>
+class App extends React.Component<any, any> {
+  _grid : any
 
-      <div className='container'>
-        {grid}
-        <Evaluator grid={grid} />
+  state = {
+    grid: null
+  }
+
+  constructor (props : any) {
+    super(props)
+
+    this._grid = undefined
+  }
+
+  componentDidMount () {
+    console.log(this.refs)
+
+    this.setState({
+      grid: this._grid
+    })
+  }
+
+  render () {
+    return (
+      <div className="App">
+        <header className="App-header">
+        Light Installation Simulator
+        </header>
+
+        <div className='container'>
+          <Grid size={20} ref={(grid) => { this._grid = grid }} />
+          <Evaluator grid={this.state.grid} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
 }
 
 export default App;

@@ -7,40 +7,42 @@ export default class Grid extends React.Component<any, any> {
     leds: Array<GridLED>()
   }
 
-  componentDidMount () {
-    const leds = []
-    const totalLEDs = this.props.size * this.props.size
-    for (var index = 0; index < totalLEDs; index++) {
-      leds.push(<GridLED key={index} />)
-    }
-
-    this.setState({ leds })
-  }
-
   setLED (index : number, rgbObject : any) {
     const led = this.state.leds[index]
 
-    led.setColorRGB(rgbObject.red, rgbObject.green, rgbObject.blue)
-
-    this.setState({
-      leds: this.state.leds,
-      updated: new Date()
-    })
+    led.setColorRGB(rgbObject.r, rgbObject.g, rgbObject.b)
   }
 
   getDimension () {
     return this.props.size
   }
 
-  // evaluate (jsScript : string) {
-  // }
+
+  reset () {
+    for (var index = 0; index < this.state.leds.length; index++) {
+      this.state.leds[index].reset()
+    }
+  }
 
   render () {
+    const totalLEDs = this.props.size * this.props.size
+    const leds = []
+    for (var index = 0; index < totalLEDs; index++) {
+      leds.push(
+        <GridLED key={index} ref={ref => {
+          if (ref) {
+
+            this.state.leds.push(ref)
+          }
+        }} />
+      )
+    }
+
     return (
       <div className="grid" style={{
         width: this.props.size * (15 + 10)
       }}>
-        {this.state.leds}
+        {leds}
       </div>
     );
   }
