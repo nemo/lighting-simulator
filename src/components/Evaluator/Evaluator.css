@@ -24,10 +24,22 @@
   border-radius: 5px;
 }
 
+.evaluator-actions button.reset {
+  background: #bababa;
+  border-color: #bababa;
+  color: white;
+}
+
 .evaluator-actions button.stop {
   color: white;
   background: #db0000;
   border-color: #db0000;
+}
+
+.evaluator-actions button.reset:hover {
+  background: white;
+  border-color: #bababa;
+  color: #bababa;
 }
 
 .evaluator-actions button.stop:hover {
