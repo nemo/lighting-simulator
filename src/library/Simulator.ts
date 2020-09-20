@@ -12,6 +12,9 @@ export default class Simulator {
 	}
 
 	setLED(row: number, col: number, color: Color) {
+		if (row >= this.dimension || row < 0 || col >= this.dimension || col < 0) {
+			return;
+		}
 		let index = row * this.dimension + col;
 		this.grid.setLED(index, color);
 	}

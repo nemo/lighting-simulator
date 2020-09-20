@@ -1,8 +1,8 @@
 import Simulator from '../Simulator'
-import Pattern from './Pattern'
+import SinglePattern from './SinglePattern'
 import Color from '../Color'
 
-export default class Snake extends Pattern {
+export default class Snake extends SinglePattern {
 
 	row = 0
 	col = 0
@@ -22,8 +22,8 @@ export default class Snake extends Pattern {
 		return this.forward ? this.simulator.dimension - 1 : 0;
 	}
 
-	next() {
-		if (this.col == this.columnBoundry()) {
+	tick() {
+		if (this.col === this.columnBoundry()) {
 			this.row++;
 			this.forward = !this.forward;
 		}

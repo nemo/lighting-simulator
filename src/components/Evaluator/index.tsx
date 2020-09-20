@@ -19,6 +19,7 @@ export default class Evaluator extends React.Component<any, any> {
       const grid = this.props.grid
       const patterns = pttrns
       const simulator = new Simulator(grid)
+      let tickSpeed = 20;
       const patternObj = eval(`function parseJS() {${this.state.code}}; parseJS();`)
       if (!patternObj) {
         throw new Error("You didn't return an object.")
@@ -37,7 +38,7 @@ export default class Evaluator extends React.Component<any, any> {
               isRunning: false
             })
           }
-        }, 20),
+        }, tickSpeed),
         isRunning: true
       })
     } catch (e) {
