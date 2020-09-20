@@ -1,6 +1,6 @@
 # tool macros
 CC := g++
-CCFLAG := -Wall
+CCFLAG := -Wall -Werror -std=c++17
 DBGFLAG := -g
 CCOBJFLAG := $(CCFLAG) -c
 
@@ -11,16 +11,16 @@ SRC_PATH := src
 DBG_PATH := debug
 
 # compile macros
-TARGET_NAME := simulator
+TARGET_NAME := main
 ifeq ($(OS),Windows_NT)
 	TARGET_NAME := $(addsuffix .exe,$(TARGET_NAME))
 endif
 TARGET := $(BIN_PATH)/$(TARGET_NAME)
 TARGET_DEBUG := $(DBG_PATH)/$(TARGET_NAME)
-MAIN_SRC := src/Main.cpp
+MAIN_SRC := src/main.cpp
 
 # src files & obj files
-SRC := $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.cpp*)))
+SRC := $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.c*)))
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
@@ -36,9 +36,10 @@ default: all
 
 # non-phony targets
 $(TARGET): $(OBJ)
-	$(CC) $(CCFLAG) -o $@ $?
+	$(CC) $(CCFLAG) -o $@ $(OBJ)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp*
+	@echo OBJ_PATH $@ $<
 	$(CC) $(CCOBJFLAG) -o $@ $<
 
 $(DBG_PATH)/%.o: $(SRC_PATH)/%.cpp*
@@ -63,3 +64,8 @@ clean:
 distclean:
 	@echo CLEAN $(DISTCLEAN_LIST)
 	@rm -f $(DISTCLEAN_LIST)
+
+.PHONY: log
+log:
+	@echo SRC $(SRC)
+	@echo OBJ $(OBJ)
