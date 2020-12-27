@@ -20,65 +20,60 @@ export default class Evaluator extends React.Component<any, any> {
 
       const grid = this.props.grid
       const simulator = new Simulator(grid)
-      const animation = Papa.parse(example)
+      const { data } = Papa.parse(example, { header: true })
+      const config = {
+        loop: false
+      }
 
-      console.log(animation)
-      // const config = eval(`function parseJS() { return ${this.state.code}}; parseJS();`)
-      //
-      // if (!config) {
-      //   throw new Error("You didn't return an object.")
-      // }
-      //
-      // if (!config.sequence) {
-      //   throw new Error("You didn't include a sequence.")
-      // }
-      //
-      // const execute = (index : number) => {
-      //   if (index >= config.sequence.length) {
-      //     if (config.loop) { execute(0) }
-      //     return
-      //   }
-      //
-      //   const step = config.sequence[index]
-      //
-      //   console.log(`Executing Step #${index}.`)
-      //   if (!step) {
-      //     throw new Error(`Bad step [${index}]: NULL step.`)
-      //   }
-      //
-      //   if (!step.actions) {
-      //     throw new Error(`Bad step [${index}]: No actions provided.`)
-      //   }
-      //
-      //   // execute current step
-      //   step.actions.forEach((action : any, actionIndex : number) => {
-      //     if (!(action.x >= 0)) {
-      //       throw new Error(`Bad step [${index}]: Bad x coorindate in action at index [${actionIndex}].`)
-      //     }
-      //
-      //     if (!(action.y >= 0)) {
-      //       throw new Error(`Bad step [${index}]: Bad y coorindate in action at index [${actionIndex}].`)
-      //     }
-      //
-      //     if (!action.color) {
-      //       throw new Error(`Bad step [${index}]: No color in action at index [${actionIndex}].`)
-      //     }
-      //
-      //     console.log(`-> Action: ${actionIndex}. [${action.x}, ${action.y}] -> rgb(${action.color.r}, ${action.color.g}, ${action.color.b})`)
-      //     simulator.setLED(action.x, action.y, new Color(action.color.r, action.color.g, action.color.b))
-      //   })
-      //
-      //   // execute next step
-      //   this.setState({
-      //     timer: setTimeout(() => execute(index + 1), step.delta),
-      //     isRunning: true
-      //   })
-      // }
+      console.log('data', data)
+
+      const execute = (index : number) => {
+        if (index >= data.length) {
+          if (config.loop) { execute(0) }
+          return
+        }
+
+        const stepObj: AnimationStepObj = data[index] as AnimationStepObj
+        if (Object.keys(stepObj).length < 6) { return }
+
+        const step : AnimationStep = {
+          x: parseInt(stepObj.x),
+          y: parseInt(stepObj.y),
+          r: parseInt(stepObj.r),
+          g: parseInt(stepObj.g),
+          b: parseInt(stepObj.b),
+          delta: parseInt(stepObj.delta)
+        }
+
+        console.log(`Executing Step #${index}`, step)
+        if (!step) {
+          throw new Error(`Bad step [${index}]: NULL step.`)
+        }
+
+        // execute current step
+        if (!(step.x >= 0)) {
+          throw new Error(`Bad step [${index}]: Bad x coorindate.`)
+        }
+
+        if (!(step.y >= 0)) {
+          throw new Error(`Bad step [${index}]: Bad y coorindate.`)
+        }
+
+        console.log(`-> Action: ${index}. [${step.x}, ${step.y}] -> rgb(${step.r}, ${step.g}, ${step.b})`)
+        simulator.setLED(step.x, step.y, new Color(step.r, step.g, step.b))
+
+        // execute next step
+        this.setState({
+          timer: setTimeout(() => execute(index + 1), step.delta),
+          isRunning: true
+        })
+      }
 
       this.setState({
         isRunning: true
       })
       execute(0)
+
     } catch (e) {
       this.setState({
         error: e.message
@@ -122,13 +117,6 @@ export default class Evaluator extends React.Component<any, any> {
             Reset
           </button>
         </div>
-
-        <textarea
-          onChange={(event) => this.setState({ code: event.target.value })}
-          value={this.state.code}
-          rows={20}
-        />
-
         <p>{this.state.error}</p>
       </div>
     );
