@@ -33,7 +33,9 @@ class App extends React.Component<any, any> {
         </header>
 
         <div className='container'>
-          <Grid size={20} ref={(grid) => { this._grid = grid }} />
+          <Grid size={40} ref={(grid) => { this._grid = grid }} />
+        </div>
+        <div className='container'>
           <Evaluator grid={this.state.grid} />
         </div>
       </div>
