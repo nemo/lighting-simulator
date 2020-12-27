@@ -1,5 +1,5 @@
 #pragma once
 
 struct Color {
-	int red, green, blue;
+	int r, g, b;
 };

@@ -3,7 +3,7 @@ import Papa from 'papaparse'
 import './Evaluator.css'
 import Simulator from '../../library/Simulator'
 import Color from '../../library/Color'
-import example from '../../animations/example.csv'
+import example from '../../animations/test.csv'
 
 export default class Evaluator extends React.Component<any, any> {
   state = {
@@ -62,11 +62,16 @@ export default class Evaluator extends React.Component<any, any> {
         console.log(`-> Action: ${index}. [${step.x}, ${step.y}] -> rgb(${step.r}, ${step.g}, ${step.b})`)
         simulator.setLED(step.x, step.y, new Color(step.r, step.g, step.b))
 
-        // execute next step
-        this.setState({
-          timer: setTimeout(() => execute(index + 1), step.delta),
-          isRunning: true
-        })
+
+        if (step.delta == 0) {
+          execute(index + 1)
+        } else {
+          // execute next step
+          this.setState({
+            timer: setTimeout(() => execute(index + 1), step.delta),
+            isRunning: true
+          })
+        }
       }
 
       this.setState({

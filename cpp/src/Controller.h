@@ -7,37 +7,12 @@ public:
 
 	virtual ~Controller() {}
 
-	virtual void setLED(int row, int col, Color color) = 0;
+	virtual void setLED(int x, int y, Color color) = 0;
 
-	// 	setLED(row: number, col: number, color: Color) {
-// 		if (row >= this.dimension || row < 0 || col >= this.dimension || col < 0) {
-// 			return;
-// 		}
-// 		let index = row * this.dimension + col;
-// 		this.grid.setLED(index, color);
-// 	}
+	virtual void tick() = 0;
 
-// 	setGrid(leds: Color[][]) {
-// 		for (let [row, colors] of leds.entries()) {
-// 			for (let [col, color] of colors.entries()) {
-// 				this.setLED(row, col, color);
-// 			}
-// 		}
-// 	}
+	virtual int getHeight() const = 0;
 
-// 	setGridArray(leds: Color[]) {
-// 		for (let [index, color] of leds.entries()) {
-// 			this.grid.setLED(index, color)
-// 		}
-// 	}
-
-// 	// Patterns
-// 	fillSolid(color: Color) {
-// 		let leds: Color[] = [];
-// 		for (let i = 0; i < this.dimension * this.dimension; i++) {
-// 			leds.push(color);
-// 		}
-// 	}
-// }
+	virtual int getWidth() const = 0;
 
 };
