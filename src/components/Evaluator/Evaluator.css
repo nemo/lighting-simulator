@@ -1,5 +1,8 @@
 .evaluator {
+  width: 100%;
   min-width: 500px;
+
+  margin: 30px auto 0;
 }
 
 .evaluator-actions {
